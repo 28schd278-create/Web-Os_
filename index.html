@@ -2,28 +2,156 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Web OS</title>
+  <title>SerumOS</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Desktop Environment -->
+  <!-- Desktop Grid (All 14 SerumOS Apps) -->
   <div id="desktop">
-    <div class="icon" onclick="openWindow('app1')">📄 App 1</div>
+    <div class="icon" onclick="openWindow('games-app')">
+      <div class="icon-img">🎮</div>
+      <span>Games</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('movies-app')">
+      <div class="icon-img">🎬</div>
+      <span>Movies</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('anime-app')">
+      <div class="icon-img">⛩️</div>
+      <span>Anime</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('youtube-app')">
+      <div class="icon-img">▶️</div>
+      <span>YouTube</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('music-app')">
+      <div class="icon-img">🎵</div>
+      <span>Music</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('ai-app')">
+      <div class="icon-img">🤖</div>
+      <span>AI</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('browser-app')">
+      <div class="icon-img">🌐</div>
+      <span>Browser</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('files-app')">
+      <div class="icon-img">📁</div>
+      <span>Files</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('code-app')">
+      <div class="icon-img">💻</div>
+      <span>Code</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('store-app')">
+      <div class="icon-img">🛍️</div>
+      <span>Store</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('term-app')">
+      <div class="icon-img">📟</div>
+      <span>Terminal</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('mirrors-app')">
+      <div class="icon-img">🪞</div>
+      <span>Mirrors</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('notes-app')">
+      <div class="icon-img">📝</div>
+      <span>Notepad</span>
+    </div>
+
+    <div class="icon" onclick="openWindow('settings-app')">
+      <div class="icon-img">⚙️</div>
+      <span>Settings</span>
+    </div>
   </div>
 
-  <!-- Template for Windows -->
-  <div id="app1" class="window hidden">
-    <div class="title-bar">
-      <span>App 1</span>
-      <button onclick="closeWindow('app1')">X</button>
-    </div>
-    <div class="window-content">
-      <p>Welcome to your Web OS window!</p>
-    </div>
+  <!-- App Windows -->
+  <div id="games-app" class="window hidden">
+    <div class="title-bar"><span>🎮 Games</span><button class="close-btn" onclick="closeWindow('games-app')">✕</button></div>
+    <div class="window-content"><p>Games Hub</p></div>
   </div>
 
-  <!-- Taskbar / Dock -->
+  <div id="movies-app" class="window hidden">
+    <div class="title-bar"><span>🎬 Movies</span><button class="close-btn" onclick="closeWindow('movies-app')">✕</button></div>
+    <div class="window-content"><p>Movies Library</p></div>
+  </div>
+
+  <div id="anime-app" class="window hidden">
+    <div class="title-bar"><span>⛩️ Anime</span><button class="close-btn" onclick="closeWindow('anime-app')">✕</button></div>
+    <div class="window-content"><p>Anime Streams</p></div>
+  </div>
+
+  <div id="youtube-app" class="window hidden">
+    <div class="title-bar"><span>▶️ YouTube</span><button class="close-btn" onclick="closeWindow('youtube-app')">✕</button></div>
+    <div class="window-content"><iframe src="https://www.youtube.com/embed" style="width:100%; height:100%; border:none; border-radius:4px;"></iframe></div>
+  </div>
+
+  <div id="music-app" class="window hidden">
+    <div class="title-bar"><span>🎵 Music</span><button class="close-btn" onclick="closeWindow('music-app')">✕</button></div>
+    <div class="window-content"><p>Music Player</p></div>
+  </div>
+
+  <div id="ai-app" class="window hidden">
+    <div class="title-bar"><span>🤖 AI</span><button class="close-btn" onclick="closeWindow('ai-app')">✕</button></div>
+    <div class="window-content"><p>AI Assistant</p></div>
+  </div>
+
+  <div id="browser-app" class="window hidden">
+    <div class="title-bar"><span>🌐 Browser</span><button class="close-btn" onclick="closeWindow('browser-app')">✕</button></div>
+    <div class="window-content"><iframe src="https://bing.com" style="width:100%; height:100%; border:none; background:#fff; border-radius:4px;"></iframe></div>
+  </div>
+
+  <div id="files-app" class="window hidden">
+    <div class="title-bar"><span>📁 Files</span><button class="close-btn" onclick="closeWindow('files-app')">✕</button></div>
+    <div class="window-content"><p>File Explorer</p></div>
+  </div>
+
+  <div id="code-app" class="window hidden">
+    <div class="title-bar"><span>💻 Code</span><button class="close-btn" onclick="closeWindow('code-app')">✕</button></div>
+    <div class="window-content"><p>Code Editor</p></div>
+  </div>
+
+  <div id="store-app" class="window hidden">
+    <div class="title-bar"><span>🛍️ Store</span><button class="close-btn" onclick="closeWindow('store-app')">✕</button></div>
+    <div class="window-content"><p>App Store</p></div>
+  </div>
+
+  <div id="term-app" class="window hidden">
+    <div class="title-bar"><span>📟 Terminal</span><button class="close-btn" onclick="closeWindow('term-app')">✕</button></div>
+    <div class="window-content" style="background:#000; font-family:monospace; color:#0f0;"><p>SerumOS Terminal v1.0</p></div>
+  </div>
+
+  <div id="mirrors-app" class="window hidden">
+    <div class="title-bar"><span>🪞 Mirrors</span><button class="close-btn" onclick="closeWindow('mirrors-app')">✕</button></div>
+    <div class="window-content"><p>Mirror Links</p></div>
+  </div>
+
+  <div id="notes-app" class="window hidden">
+    <div class="title-bar"><span>📝 Notepad</span><button class="close-btn" onclick="closeWindow('notes-app')">✕</button></div>
+    <div class="window-content"><textarea style="width:100%; height:100%; background:#111; color:#fff; border:1px solid #333; padding:10px; border-radius:4px; resize:none;" placeholder="Type notes..."></textarea></div>
+  </div>
+
+  <div id="settings-app" class="window hidden">
+    <div class="title-bar"><span>⚙️ Settings</span><button class="close-btn" onclick="closeWindow('settings-app')">✕</button></div>
+    <div class="window-content"><h3>System Settings</h3><p style="margin-top:10px;">SerumOS Version: 1.0.0</p></div>
+  </div>
+
+  <!-- Taskbar -->
   <div id="taskbar">
     <button id="start-menu-btn">Start</button>
   </div>
