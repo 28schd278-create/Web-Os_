@@ -3,172 +3,366 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SerumOS</title>
+  <title>Windows 10 - SerumOS</title>
   <style>
-    /* Reset & Core Base */
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
       overflow: hidden;
-      background: radial-gradient(circle at 15% 20%, #1a0b2e 0%, transparent 40%),
-                  radial-gradient(circle at 85% 80%, #0d1b2a 0%, transparent 40%),
-                  #05070a;
-      background-size: cover;
-      color: #ffffff;
+      background: radial-gradient(circle at 50% 50%, #1e3c72 0%, #1a2a6c 50%, #0f172a 100%);
+      color: #fff;
     }
 
-    /* Desktop Grid Layout */
+    /* Desktop Icon Grid */
     #desktop {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      grid-auto-rows: 105px;
-      gap: 16px;
-      padding: 24px;
-      height: calc(100vh - 50px);
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 12px;
+      padding: 16px;
+      height: calc(100vh - 40px);
     }
 
-    /* Glassmorphic App Icons */
     .icon {
+      width: 82px;
+      height: 82px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
-      padding: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      text-align: center;
+      border-radius: 4px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      transition: background 0.15s;
     }
     .icon:hover {
-      background: rgba(0, 212, 255, 0.15);
-      border-color: rgba(0, 212, 255, 0.4);
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
-      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
     }
-    .icon-img {
-      font-size: 36px;
-      margin-bottom: 6px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    }
+    .icon-img { font-size: 32px; margin-bottom: 4px; }
+    .icon-title { font-size: 11px; text-align: center; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
-    /* Window Containers */
+    /* Window Frames */
     .window {
       position: absolute;
-      top: 10%;
-      left: 15%;
-      width: 620px;
-      height: 420px;
-      background: rgba(10, 14, 23, 0.94);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(0, 212, 255, 0.25);
-      border-radius: 12px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 212, 255, 0.15);
+      top: 60px;
+      left: 180px;
+      width: 680px;
+      height: 460px;
+      background: #1f1f1f;
+      border: 1px solid #444;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
       display: flex;
       flex-direction: column;
+      border-radius: 6px 6px 0 0;
       overflow: hidden;
     }
     .hidden { display: none !important; }
 
-    /* Window Header */
+    /* Title Bar */
     .title-bar {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 10px 16px;
+      height: 32px;
+      background: #2d2d2d;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0 10px;
       cursor: move;
-      font-size: 13px;
-      font-weight: 600;
+      border-bottom: 1px solid #3d3d3d;
     }
-    .close-btn {
-      background: #ff5f56;
+    .title-bar span { font-size: 12px; font-weight: 500; }
+    .win-controls { display: flex; }
+    .win-btn {
+      width: 34px;
+      height: 32px;
+      background: transparent;
       border: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
+      color: #fff;
+      font-size: 12px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .win-btn:hover { background: rgba(255, 255, 255, 0.1); }
+    .win-btn.close:hover { background: #e81123; }
+
+    .window-content {
+      flex: 1;
+      background: #141414;
+      padding: 12px;
+      overflow: auto;
+      color: #e0e0e0;
+      font-size: 13px;
     }
 
-    .window-content { padding: 18px; flex: 1; font-size: 14px; color: #e2e8f0; }
-
-    /* Taskbar & Live Clock */
+    /* Windows 10 Taskbar */
     #taskbar {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100vw;
-      height: 50px;
-      background: rgba(8, 12, 20, 0.88);
-      backdrop-filter: blur(16px);
-      border-top: 1px solid rgba(0, 212, 255, 0.2);
+      height: 40px;
+      background: rgba(16, 16, 16, 0.95);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      border-top: 1px solid #333;
+      z-index: 9999;
     }
-    #start-menu-btn {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(157, 78, 221, 0.25));
-      border: 1px solid rgba(0, 212, 255, 0.4);
-      color: #fff;
-      padding: 8px 18px;
-      border-radius: 8px;
+    .taskbar-left { display: flex; align-items: center; height: 100%; }
+    .start-btn {
+      width: 48px;
+      height: 100%;
+      background: transparent;
+      border: none;
+      color: #00adef;
+      font-size: 18px;
       cursor: pointer;
-      font-weight: 600;
     }
-    #clock { font-size: 13px; font-weight: 600; color: #00d4ff; }
+    .start-btn:hover { background: rgba(255, 255, 255, 0.1); }
+    
+    .search-bar {
+      height: 100%;
+      width: 200px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      padding: 0 12px;
+      color: #ccc;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .system-tray { display: flex; align-items: center; padding-right: 12px; gap: 12px; font-size: 12px; }
+    .clock-container { text-align: right; font-size: 11px; line-height: 1.2; }
+
+    /* Interactive Game Canvas */
+    #snake-canvas { background: #000; display: block; margin: 10px auto; border: 1px solid #333; }
+    .game-controls { text-align: center; margin-top: 8px; }
+    .game-btn { padding: 6px 16px; background: #0078d4; border: none; color: white; border-radius: 4px; cursor: pointer; }
+    
+    /* Terminal styling */
+    .term-output { height: 320px; overflow-y: auto; font-family: monospace; color: #0f0; background: #000; padding: 8px; border: 1px solid #333; }
+    .term-input-line { display: flex; background: #000; padding: 4px 8px; border: 1px solid #333; border-top: none; }
+    .term-input { flex: 1; background: transparent; border: none; color: #0f0; font-family: monospace; outline: none; }
   </style>
 </head>
 <body>
 
-  <!-- Desktop App Grid -->
+  <!-- Desktop Icons Column -->
   <div id="desktop">
-    <div class="icon" onclick="openWindow('games-app')"><div class="icon-img">🎮</div><span>Games</span></div>
-    <div class="icon" onclick="openWindow('movies-app')"><div class="icon-img">🎬</div><span>Movies</span></div>
-    <div class="icon" onclick="openWindow('anime-app')"><div class="icon-img">⛩️</div><span>Anime</span></div>
-    <div class="icon" onclick="openWindow('youtube-app')"><div class="icon-img">▶️</div><span>YouTube</span></div>
-    <div class="icon" onclick="openWindow('music-app')"><div class="icon-img">🎵</div><span>Music</span></div>
-    <div class="icon" onclick="openWindow('ai-app')"><div class="icon-img">🤖</div><span>AI</span></div>
-    <div class="icon" onclick="openWindow('browser-app')"><div class="icon-img">🌐</div><span>Browser</span></div>
-    <div class="icon" onclick="openWindow('files-app')"><div class="icon-img">📁</div><span>Files</span></div>
-    <div class="icon" onclick="openWindow('code-app')"><div class="icon-img">💻</div><span>Code</span></div>
-    <div class="icon" onclick="openWindow('store-app')"><div class="icon-img">🛍️</div><span>Store</span></div>
-    <div class="icon" onclick="openWindow('term-app')"><div class="icon-img">📟</div><span>Terminal</span></div>
-    <div class="icon" onclick="openWindow('mirrors-app')"><div class="icon-img">🪞</div><span>Mirrors</span></div>
-    <div class="icon" onclick="openWindow('notes-app')"><div class="icon-img">📝</div><span>Notepad</span></div>
-    <div class="icon" onclick="openWindow('settings-app')"><div class="icon-img">⚙️</div><span>Settings</span></div>
+    <div class="icon" onclick="openWindow('app-games')"><div class="icon-img">🎮</div><div class="icon-title">Games</div></div>
+    <div class="icon" onclick="openWindow('app-movies')"><div class="icon-img">🎬</div><div class="icon-title">Movies</div></div>
+    <div class="icon" onclick="openWindow('app-anime')"><div class="icon-img">⛩️</div><div class="icon-title">Anime</div></div>
+    <div class="icon" onclick="openWindow('app-youtube')"><div class="icon-img">▶️</div><div class="icon-title">YouTube</div></div>
+    <div class="icon" onclick="openWindow('app-music')"><div class="icon-img">🎵</div><div class="icon-title">Music</div></div>
+    <div class="icon" onclick="openWindow('app-ai')"><div class="icon-img">🤖</div><div class="icon-title">AI</div></div>
+    <div class="icon" onclick="openWindow('app-browser')"><div class="icon-img">🌐</div><div class="icon-title">Browser</div></div>
+    <div class="icon" onclick="openWindow('app-files')"><div class="icon-img">📁</div><div class="icon-title">Files</div></div>
+    <div class="icon" onclick="openWindow('app-code')"><div class="icon-img">💻</div><div class="icon-title">Code</div></div>
+    <div class="icon" onclick="openWindow('app-store')"><div class="icon-img">🛍️</div><div class="icon-title">Store</div></div>
+    <div class="icon" onclick="openWindow('app-term')"><div class="icon-img">📟</div><div class="icon-title">Terminal</div></div>
+    <div class="icon" onclick="openWindow('app-mirrors')"><div class="icon-img">🪞</div><div class="icon-title">Mirrors</div></div>
+    <div class="icon" onclick="openWindow('app-notes')"><div class="icon-img">📝</div><div class="icon-title">Notepad</div></div>
+    <div class="icon" onclick="openWindow('app-settings')"><div class="icon-img">⚙️</div><div class="icon-title">Settings</div></div>
   </div>
 
-  <!-- Windows -->
-  <div id="games-app" class="window hidden"><div class="title-bar"><span>🎮 Games</span><button class="close-btn" onclick="closeWindow('games-app')"></button></div><div class="window-content"><p>Games Hub</p></div></div>
-  <div id="movies-app" class="window hidden"><div class="title-bar"><span>🎬 Movies</span><button class="close-btn" onclick="closeWindow('movies-app')"></button></div><div class="window-content"><p>Movies Streaming</p></div></div>
-  <div id="anime-app" class="window hidden"><div class="title-bar"><span>⛩️ Anime</span><button class="close-btn" onclick="closeWindow('anime-app')"></button></div><div class="window-content"><p>Anime Streams</p></div></div>
-  <div id="youtube-app" class="window hidden"><div class="title-bar"><span>▶️ YouTube</span><button class="close-btn" onclick="closeWindow('youtube-app')"></button></div><div class="window-content"><iframe src="https://www.youtube.com/embed" style="width:100%; height:100%; border:none;"></iframe></div></div>
-  <div id="music-app" class="window hidden"><div class="title-bar"><span>🎵 Music</span><button class="close-btn" onclick="closeWindow('music-app')"></button></div><div class="window-content"><p>Audio Player</p></div></div>
-  <div id="ai-app" class="window hidden"><div class="title-bar"><span>🤖 AI</span><button class="close-btn" onclick="closeWindow('ai-app')"></button></div><div class="window-content"><p>AI Assistant Interface</p></div></div>
-  <div id="browser-app" class="window hidden"><div class="title-bar"><span>🌐 Browser</span><button class="close-btn" onclick="closeWindow('browser-app')"></button></div><div class="window-content"><iframe src="https://bing.com" style="width:100%; height:100%; border:none; background:#fff;"></iframe></div></div>
-  <div id="files-app" class="window hidden"><div class="title-bar"><span>📁 Files</span><button class="close-btn" onclick="closeWindow('files-app')"></button></div><div class="window-content"><p>Virtual Storage</p></div></div>
-  <div id="code-app" class="window hidden"><div class="title-bar"><span>💻 Code</span><button class="close-btn" onclick="closeWindow('code-app')"></button></div><div class="window-content"><p>IDE Code Editor</p></div></div>
-  <div id="store-app" class="window hidden"><div class="title-bar"><span>🛍️ Store</span><button class="close-btn" onclick="closeWindow('store-app')"></button></div><div class="window-content"><p>SerumOS App Store</p></div></div>
-  <div id="term-app" class="window hidden"><div class="title-bar"><span>📟 Terminal</span><button class="close-btn" onclick="closeWindow('term-app')"></button></div><div class="window-content" style="background:#000; font-family:monospace; color:#0f0;"><p>SerumOS Terminal v1.0</p></div></div>
-  <div id="mirrors-app" class="window hidden"><div class="title-bar"><span>🪞 Mirrors</span><button class="close-btn" onclick="closeWindow('mirrors-app')"></button></div><div class="window-content"><p>Mirror Network Links</p></div></div>
-  <div id="notes-app" class="window hidden"><div class="title-bar"><span>📝 Notepad</span><button class="close-btn" onclick="closeWindow('notes-app')"></button></div><div class="window-content"><textarea style="width:100%; height:100%; background:#111; color:#fff; border:1px solid #333; padding:10px; resize:none;" placeholder="Type notes..."></textarea></div></div>
-  <div id="settings-app" class="window hidden"><div class="title-bar"><span>⚙️ Settings</span><button class="close-btn" onclick="closeWindow('settings-app')"></button></div><div class="window-content"><h3>System Settings</h3><p style="margin-top:10px;">SerumOS v1.0.0</p></div></div>
+  <!-- 1: Playable Snake Game -->
+  <div id="app-games" class="window hidden">
+    <div class="title-bar"><span>🎮 Playable Snake Game</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-games')">✕</button></div></div>
+    <div class="window-content" style="text-align:center;">
+      <canvas id="snake-canvas" width="300" height="300"></canvas>
+      <div class="game-controls">
+        <button class="game-btn" onclick="startSnake()">Start / Restart Game</button>
+        <p style="margin-top:6px; font-size:11px; color:#aaa;">Use Arrow Keys (Up, Down, Left, Right) to play!</p>
+      </div>
+    </div>
+  </div>
 
-  <!-- Bottom Taskbar -->
+  <!-- 2: Movies Player -->
+  <div id="app-movies" class="window hidden">
+    <div class="title-bar"><span>🎬 Movies Center</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-movies')">✕</button></div></div>
+    <div class="window-content">
+      <h3>Featured Sci-Fi Movie Stream</h3>
+      <video controls style="width:100%; margin-top:10px; border-radius:4px; background:#000;">
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- 3: Anime Stream -->
+  <div id="app-anime" class="window hidden">
+    <div class="title-bar"><span>⛩️ Anime Stream</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-anime')">✕</button></div></div>
+    <div class="window-content">
+      <h3>Anime Short Film</h3>
+      <video controls style="width:100%; margin-top:10px; border-radius:4px; background:#000;">
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- 4: YouTube Search & Video -->
+  <div id="app-youtube" class="window hidden">
+    <div class="title-bar"><span>▶️ YouTube Player</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-youtube')">✕</button></div></div>
+    <div class="window-content" style="padding:0;">
+      <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" style="width:100%; height:100%; border:none;"></iframe>
+    </div>
+  </div>
+
+  <!-- 5: Audio Music Player -->
+  <div id="app-music" class="window hidden">
+    <div class="title-bar"><span>🎵 Music Player</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-music')">✕</button></div></div>
+    <div class="window-content" style="text-align:center; padding-top:40px;">
+      <h2>Synthwave Cyber Audio Stream</h2>
+      <audio controls style="margin-top:20px; width:80%;">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <!-- 6: Functional AI Chat Assistant -->
+  <div id="app-ai" class="window hidden">
+    <div class="title-bar"><span>🤖 AI Assistant</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-ai')">✕</button></div></div>
+    <div class="window-content" style="display:flex; flex-direction:column;">
+      <div id="ai-messages" style="flex:1; overflow-y:auto; background:#111; padding:10px; border-radius:4px; margin-bottom:10px;">
+        <p><strong>AI Bot:</strong> Hello! I am your SerumOS AI assistant. How can I help you today?</p>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <input type="text" id="ai-input" placeholder="Ask AI..." style="flex:1; padding:8px; background:#222; border:1px solid #444; color:#fff; border-radius:4px;">
+        <button onclick="sendAIMessage()" style="padding:8px 16px; background:#0078d4; border:none; color:#fff; border-radius:4px; cursor:pointer;">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7: In-OS Web Browser -->
+  <div id="app-browser" class="window hidden">
+    <div class="title-bar"><span>🌐 Web Browser</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-browser')">✕</button></div></div>
+    <div class="window-content" style="padding:0; display:flex; flex-direction:column;">
+      <div style="padding:6px; background:#2d2d2d; display:flex; gap:6px;">
+        <input type="text" id="browser-url" value="https://bing.com" style="flex:1; padding:4px 8px; background:#111; border:1px solid #444; color:#fff; border-radius:3px;">
+        <button onclick="navigateBrowser()" style="padding:4px 12px; background:#0078d4; border:none; color:#fff; border-radius:3px; cursor:pointer;">Go</button>
+      </div>
+      <iframe id="browser-frame" src="https://bing.com" style="flex:1; width:100%; border:none; background:#fff;"></iframe>
+    </div>
+  </div>
+
+  <!-- 8: Virtual File Manager -->
+  <div id="app-files" class="window hidden">
+    <div class="title-bar"><span>📁 File Explorer</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-files')">✕</button></div></div>
+    <div class="window-content">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;">
+        <div style="text-align:center; padding:10px; background:#222; border-radius:4px;">📄 Document.txt</div>
+        <div style="text-align:center; padding:10px; background:#222; border-radius:4px;">🖼️ Wallpaper.png</div>
+        <div style="text-align:center; padding:10px; background:#222; border-radius:4px;">🎵 Song.mp3</div>
+        <div style="text-align:center; padding:10px; background:#222; border-radius:4px;">🎬 Video.mp4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9: Code Editor -->
+  <div id="app-code" class="window hidden">
+    <div class="title-bar"><span>💻 Code Editor</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-code')">✕</button></div></div>
+    <div class="window-content" style="padding:0;">
+      <textarea style="width:100%; height:100%; background:#0d1117; color:#58a6ff; font-family:monospace; padding:12px; border:none; resize:none;" spellcheck="false">// Write custom JS / HTML code here
+function helloOS() {
+  console.log("SerumOS online!");
+}</textarea>
+    </div>
+  </div>
+
+  <!-- 10: App Store -->
+  <div id="app-store" class="window hidden">
+    <div class="title-bar"><span>🛍️ Windows App Store</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-store')">✕</button></div></div>
+    <div class="window-content">
+      <h3>Featured Apps</h3>
+      <div style="display:flex; gap:12px; margin-top:12px;">
+        <div style="background:#222; padding:12px; border-radius:6px; flex:1;">
+          <h4>Spotify</h4>
+          <p style="font-size:11px; color:#aaa; margin:6px 0;">Music streaming app</p>
+          <button style="padding:4px 10px; background:#0078d4; border:none; color:#fff; border-radius:3px; cursor:pointer;">Installed</button>
+        </div>
+        <div style="background:#222; padding:12px; border-radius:6px; flex:1;">
+          <h4>Discord</h4>
+          <p style="font-size:11px; color:#aaa; margin:6px 0;">Chat & voice app</p>
+          <button style="padding:4px 10px; background:#0078d4; border:none; color:#fff; border-radius:3px; cursor:pointer;">Installed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11: Command Prompt Terminal -->
+  <div id="app-term" class="window hidden">
+    <div class="title-bar"><span>📟 Command Prompt</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-term')">✕</button></div></div>
+    <div class="window-content" style="padding:0; display:flex; flex-direction:column;">
+      <div id="term-out" class="term-output">
+        Microsoft Windows [Version 10.0.19045]<br>
+        (c) Microsoft Corporation. All rights reserved.<br><br>
+        Type 'help' or 'date' or 'clear'...<br><br>
+      </div>
+      <div class="term-input-line">
+        <span style="color:#0f0;">C:\Users\SerumOS></span>
+        <input type="text" id="term-in" class="term-input" onkeydown="runCmd(event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- 12: Mirror Networks -->
+  <div id="app-mirrors" class="window hidden">
+    <div class="title-bar"><span>🪞 Network Mirrors</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-mirrors')">✕</button></div></div>
+    <div class="window-content">
+      <h3>Active Mirror Nodes</h3>
+      <ul style="margin-top:10px; padding-left:20px; line-height:1.8;">
+        <li>Node 1: US-East (Online - 12ms)</li>
+        <li>Node 2: EU-West (Online - 45ms)</li>
+        <li>Node 3: AP-South (Online - 88ms)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 13: LocalStorage Auto-Save Notepad -->
+  <div id="app-notes" class="window hidden">
+    <div class="title-bar"><span>📝 Notepad (Auto-Saves)</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-notes')">✕</button></div></div>
+    <div class="window-content" style="padding:0;">
+      <textarea id="note-text" oninput="saveNotes()" style="width:100%; height:100%; background:#1e1e1e; color:#fff; padding:12px; border:none; resize:none;" placeholder="Type notes here... Saves automatically!"></textarea>
+    </div>
+  </div>
+
+  <!-- 14: Settings & Wallpaper Switcher -->
+  <div id="app-settings" class="window hidden">
+    <div class="title-bar"><span>⚙️ Windows Settings</span><div class="win-controls"><button class="win-btn close" onclick="closeWindow('app-settings')">✕</button></div></div>
+    <div class="window-content">
+      <h3>Personalization</h3>
+      <p style="margin-top:8px;">Choose Desktop Background:</p>
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button onclick="setBG('blue')" style="padding:8px 14px; background:#1e3c72; border:1px solid #fff; color:#fff; border-radius:4px; cursor:pointer;">Blue Radial</button>
+        <button onclick="setBG('dark')" style="padding:8px 14px; background:#0f172a; border:1px solid #fff; color:#fff; border-radius:4px; cursor:pointer;">Dark Void</button>
+        <button onclick="setBG('purple')" style="padding:8px 14px; background:#2d114d; border:1px solid #fff; color:#fff; border-radius:4px; cursor:pointer;">Cyber Purple</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
   <div id="taskbar">
-    <button id="start-menu-btn">Start</button>
-    <div id="clock">00:00:00 AM</div>
+    <div class="taskbar-left">
+      <button class="start-btn">❖</button>
+      <input type="text" class="search-bar" placeholder="Type here to search">
+    </div>
+    <div class="system-tray">
+      <span>🔊</span>
+      <span>📶</span>
+      <div class="clock-container">
+        <div id="clock-time">12:00 PM</div>
+        <div id="clock-date">10/20/2026</div>
+      </div>
+    </div>
   </div>
 
   <script>
-    let highestZIndex = 10;
+    let highestZIndex = 100;
+
     function openWindow(id) {
       const win = document.getElementById(id);
       if (win) {
@@ -177,19 +371,22 @@
         win.style.zIndex = highestZIndex;
       }
     }
+
     function closeWindow(id) {
       const win = document.getElementById(id);
       if (win) win.classList.add('hidden');
     }
 
-    // Draggable Windows
+    // Draggable Window Mechanics
     document.querySelectorAll('.window').forEach(win => {
       const header = win.querySelector('.title-bar');
       let isDragging = false, offsetX = 0, offsetY = 0;
+
       win.addEventListener('mousedown', () => {
         highestZIndex++;
         win.style.zIndex = highestZIndex;
       });
+
       if (header) {
         header.addEventListener('mousedown', (e) => {
           isDragging = true;
@@ -197,22 +394,120 @@
           offsetY = e.clientY - win.offsetTop;
         });
       }
+
       document.addEventListener('mousemove', (e) => {
         if (isDragging) {
           win.style.left = `${e.clientX - offsetX}px`;
           win.style.top = `${e.clientY - offsetY}px`;
         }
       });
+
       document.addEventListener('mouseup', () => { isDragging = false; });
     });
 
-    // Live Clock
+    // Clock
     function updateClock() {
       const now = new Date();
-      document.getElementById('clock').innerText = now.toLocaleTimeString();
+      document.getElementById('clock-time').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('clock-date').innerText = now.toLocaleDateString();
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Snake Game Logic
+    let snakeCtx, snakeInterval, snake = [{x: 10, y: 10}], food = {x: 15, y: 15}, dx = 1, dy = 0;
+    function startSnake() {
+      const canvas = document.getElementById('snake-canvas');
+      snakeCtx = canvas.getContext('2d');
+      snake = [{x: 10, y: 10}];
+      dx = 1; dy = 0;
+      clearInterval(snakeInterval);
+      snakeInterval = setInterval(gameLoop, 100);
+    }
+
+    function gameLoop() {
+      const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+      snake.unshift(head);
+      if (head.x === food.x && head.y === food.y) {
+        food = {x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20)};
+      } else {
+        snake.pop();
+      }
+      snakeCtx.fillStyle = '#000';
+      snakeCtx.fillRect(0, 0, 300, 300);
+      snakeCtx.fillStyle = '#0f0';
+      snake.forEach(p => snakeCtx.fillRect(p.x * 15, p.y * 15, 14, 14));
+      snakeCtx.fillStyle = '#f00';
+      snakeCtx.fillRect(food.x * 15, food.y * 15, 14, 14);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' && dy === 0) { dx = 0; dy = -1; }
+      if (e.key === 'ArrowDown' && dy === 0) { dx = 0; dy = 1; }
+      if (e.key === 'ArrowLeft' && dx === 0) { dx = -1; dy = 0; }
+      if (e.key === 'ArrowRight' && dx === 0) { dx = 1; dy = 0; }
+    });
+
+    // AI Chat Bot
+    function sendAIMessage() {
+      const input = document.getElementById('ai-input');
+      const box = document.getElementById('ai-messages');
+      if (!input.value.trim()) return;
+
+      const userTxt = input.value;
+      box.innerHTML += `<p style="margin-top:6px;"><strong>You:</strong> ${userTxt}</p>`;
+      input.value = '';
+
+      setTimeout(() => {
+        box.innerHTML += `<p style="margin-top:6px; color:#00adef;"><strong>AI Bot:</strong> I processed your query regarding "${userTxt}". SerumOS system performance is optimal.</p>`;
+        box.scrollTop = box.scrollHeight;
+      }, 500);
+    }
+
+    // Browser
+    function navigateBrowser() {
+      const url = document.getElementById('browser-url').value;
+      document.getElementById('browser-frame').src = url;
+    }
+
+    // Terminal
+    function runCmd(e) {
+      if (e.key === 'Enter') {
+        const input = document.getElementById('term-in');
+        const out = document.getElementById('term-out');
+        const cmd = input.value.trim().toLowerCase();
+        
+        out.innerHTML += `C:\\Users\\SerumOS> ${input.value}<br>`;
+        if (cmd === 'help') {
+          out.innerHTML += `Available commands: help, clear, date, ver, echo<br>`;
+        } else if (cmd === 'clear') {
+          out.innerHTML = '';
+        } else if (cmd === 'date') {
+          out.innerHTML += `${new Date().toString()}<br>`;
+        } else if (cmd === 'ver') {
+          out.innerHTML += `SerumOS Windows Edition [Version 10.0.19045]<br>`;
+        } else if (cmd.startsWith('echo ')) {
+          out.innerHTML += `${input.value.substring(5)}<br>`;
+        } else {
+          out.innerHTML += `'${cmd}' is not recognized as an internal command.<br>`;
+        }
+        input.value = '';
+        out.scrollTop = out.scrollHeight;
+      }
+    }
+
+    // Notepad Autosave
+    function saveNotes() {
+      localStorage.setItem('serum_notes', document.getElementById('note-text').value);
+    }
+    document.getElementById('note-text').value = localStorage.getItem('serum_notes') || '';
+
+    // Settings Background Switcher
+    function setBG(theme) {
+      if (theme === 'blue') body.style.background = 'radial-gradient(circle at 50% 50%, #1e3c72 0%, #1a2a6c 50%, #0f172a 100%)';
+      if (theme === 'dark') body.style.background = '#0d1117';
+      if (theme === 'purple') body.style.background = 'radial-gradient(circle at 50% 50%, #2d114d 0%, #000000 100%)';
+    }
   </script>
 </body>
 </html>
