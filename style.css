@@ -1,66 +1,138 @@
-body {
+/* Reset defaults */
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  height: 100vh;
   overflow: hidden;
-  font-family: sans-serif;
-  background: #1e1e2e;
-  color: #fff;
+  /* Dark wallpaper gradient */
+  background: radial-gradient(circle at center, #1b2838 0%, #0d121a 100%);
+  color: #ffffff;
 }
 
+/* Desktop Grid for Icons */
 #desktop {
-  width: 100vw;
-  height: calc(100vh - 40px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  grid-auto-rows: 90px;
+  gap: 15px;
   padding: 20px;
+  height: calc(100vh - 48px);
 }
 
+/* Modern App Icons */
 .icon {
-  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 13px;
   text-align: center;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
 .icon:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
 }
 
+.icon-img {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+/* Sleek Window Styling */
 .window {
   position: absolute;
-  top: 100px;
-  left: 100px;
-  width: 300px;
-  height: 200px;
-  background: #2b2b3b;
-  border: 1px solid #444;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  border-radius: 6px;
+  top: 12%;
+  left: 15%;
+  width: 550px;
+  height: 360px;
+  background: rgba(20, 24, 33, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
+/* Window Titlebar */
 .title-bar {
-  background: #3b3b4b;
-  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   cursor: move;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: #ff5f56;
+  border: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: transparent;
+}
+
+.close-btn:hover {
+  color: #000;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
 }
 
 .window-content {
-  padding: 10px;
+  padding: 18px;
+  flex: 1;
+  font-size: 14px;
+  color: #d0d7de;
 }
 
+/* Bottom Taskbar */
 #taskbar {
-  height: 40px;
-  background: #111;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  width: 100vw;
+  height: 48px;
+  background: rgba(15, 18, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+#start-menu-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#start-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
